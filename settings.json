@@ -2,8 +2,9 @@
   "AWSAccessKeyId": "",
   "AWSSecretAccessKey": "",
   "UploadsPolitics": {
+    "downloadLinkExpireTimeInMinutes": 1,
   	"basicUploads": {
-  		"bucketName": "basicUploads",
+  		"bucketName": "basic-uploads",
   		"maxFileSizeInMb": "5"
   	}
   }

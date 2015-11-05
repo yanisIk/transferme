@@ -1,9 +1,13 @@
-BasicUpload = new Slingshot.Upload("basicFileUpload");
+BasicUploader = new Slingshot.Upload("basicFileUpload");
+Session.set("actualFile", null);
 
 Template.uploadForm.helpers({
-  file: function () {
-    return Session.get("actualFile");
-  }
+    file: function () {
+        return Session.get("actualFile");
+    },
+    progress: function () {
+        return Math.round(BasicUploader.progress() * 100);
+    }
 });
 
 /*
@@ -11,48 +15,48 @@ Template.uploadForm.helpers({
 */
 
 Template.uploadForm.events({
-  'click #drop a': function (evt, temp) {
-    e.preventDefault();
-    // Simulate a click on the file input button
-    // to show the file browser dialog
-    temp.$('input').click();
-  },
-  
-  'submit #uploadForm': function (evt, temp) {
-    evt.preventDefault();
-    
-    var uploadOptions = {
-          file: temp.find('input[type=file]').file,
-          senderEmail: evt.target.senderEmail.value || "",
-          receiverEmail: evt.target.receiverEmail.value || "",
-          message: evt.target.message.value || "",
-    }
-    //TODO: Validate uploadOptions
-    if (!uploadOptions.file) {
-      //alert user
-      sAlert.warning('Attach a file first');
-      return;
-    }
+    'click #drop a': function (evt, temp) {
+        e.preventDefault();
+        // Simulate a click on the file input button
+        // to show the file browser dialog
+        temp.$('input').click();
+    },
 
-    BasicUploader.send(file, function (error, downloadUrl) {
-      if (error) {
-        sAlert.error("Error while uploading file");
-        throw new Meteor.Error(error);
-      }
-      else {
-        Meteor.call('Uploads.create', uploadOptions, function (err, result) {
-          if (err) {
-            sAlert.error("Error while saving your upload");
+    'submit #uploadForm': function (evt, temp) {
+        evt.preventDefault();
+
+        var uploadOptions = {
+              file: temp.find('input[type=file]').file,
+              emailFrom: evt.target.emailFrom.value || "",
+              emailTo: evt.target.emailTo.value || "",
+              message: evt.target.message.value || "",
+        }
+        //TODO: Validate uploadOptions
+        if (!uploadOptions.file) {
+          //alert user
+          sAlert.warning('Attach a file first');
+          return;
+        }
+
+        BasicUploader.send(file, function (error, downloadUrl) {
+          if (error) {
+            sAlert.error("Error while uploading file");
+            throw new Meteor.Error(error);
+          }
+          else {
+            Meteor.call('Uploads.create', uploadOptions, function (err, result) {
+              if (err) {
+                sAlert.error("Error while saving your upload");
+              }
+            });
           }
         });
-      }
-    });
-  }
+    }
 });
 
 Template.uploadForm.onRendered(function () {
     // Initialize the jQuery File Upload plugin
-    $('#upload').fileupload({
+    $('#uploadForm').fileupload({
 
         // This element will accept file drag/drop uploading
         dropZone: $('#drop'),
@@ -61,35 +65,27 @@ Template.uploadForm.onRendered(function () {
         // either via the browse button, or via drag/drop:
         add: function (e, data) {
 
-            //TODO: Create file in Session
+            //Create file object in Session
             var actualFile = {
               name: data.files[0].name,
               size: formatFileSize(data.files[0].size
             }
             Session.set("actualFile", actualFile);
 
-            var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"'+
-                ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p></p><span></span></li>');
-
-            // Append the file name and file size
-            tpl.find('p').text(data.files[0].name)
-                         .append('<i>' + formatFileSize(data.files[0].size) + '</i>');
-
-            // Add the HTML to the UL element
-            data.context = tpl.appendTo(ul);
-
+            var fileStatusElement = $('.working');
             // Initialize the knob plugin
-            tpl.find('input').knob();
+            fileStatusElement.find('input').knob();
 
             // Listen for clicks on the cancel icon
-            tpl.find('span').click(function(){
+            fileStatusElement.find('span').click(function(){
 
-                if(tpl.hasClass('working')){
-                    jqXHR.abort();
+                if(fileStatusElement.hasClass('working')){
+                    //Cancel upload
+                    //BasicUploader.abort() ???
                 }
 
-                tpl.fadeOut(function(){
-                    tpl.remove();
+                fileStatusElement.fadeOut(function(){
+                    fileStatusElement.remove();
                 });
 
             });
