@@ -1,0 +1,10 @@
+{
+  "AWSAccessKeyId": "",
+  "AWSSecretAccessKey": "",
+  "UploadsPolitics": {
+  	"basicUploads": {
+  		"bucketName": "basicUploads",
+  		"maxFileSizeInMb": "5"
+  	}
+  }
+}
