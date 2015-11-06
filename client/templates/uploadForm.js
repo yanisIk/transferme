@@ -6,7 +6,10 @@ Template.uploadForm.helpers({
         return Session.get("actualFile");
     },
     progress: function () {
-        return Math.round(BasicUploader.progress() * 100);
+        if (Session.get("actualFile")) {
+            return Math.round(BasicUploader.progress() * 100);
+        }
+        return 0;
     }
 });
 
@@ -29,7 +32,7 @@ Template.uploadForm.events({
               file: temp.find('input[type=file]').file,
               emailFrom: evt.target.emailFrom.value || "",
               emailTo: evt.target.emailTo.value || "",
-              message: evt.target.message.value || "",
+              message: evt.target.message.value || ""
         }
         //TODO: Validate uploadOptions
         if (!uploadOptions.file) {
@@ -68,7 +71,7 @@ Template.uploadForm.onRendered(function () {
             //Create file object in Session
             var actualFile = {
               name: data.files[0].name,
-              size: formatFileSize(data.files[0].size
+              size: formatFileSize(data.files[0].size)
             }
             Session.set("actualFile", actualFile);
 
@@ -78,9 +81,10 @@ Template.uploadForm.onRendered(function () {
 
             // Listen for clicks on the cancel icon
             fileStatusElement.find('span').click(function(){
-
+                console.log('REMOVE FILE');
                 if(fileStatusElement.hasClass('working')){
                     //Cancel upload
+                    console.log('CANCEL UPLOAD');
                     //BasicUploader.abort() ???
                 }
 
@@ -89,7 +93,7 @@ Template.uploadForm.onRendered(function () {
                 });
 
             });
-        },
+        }
     });
 });
 

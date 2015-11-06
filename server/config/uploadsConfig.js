@@ -12,7 +12,7 @@ Slingshot.createDirective("basicFileUpload", Slingshot.S3Storage, {
     return true;
   },
   key: function (file) {
-    return Date.now() + "-" + file.name;
+    return file.name + "-" + Date.now();
   }
 
 });
