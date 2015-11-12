@@ -48,7 +48,7 @@ section, footer, header, aside{
 -----------------------------*/
 
 
-#upload{
+#uploadForm{
     font-family:'PT Sans Narrow', sans-serif;
     background-color:#373a3d;
 
@@ -99,14 +99,14 @@ section, footer, header, aside{
     display:none;
 }
 
-#upload ul{
+#uploadForm ul{
     list-style:none;
     margin:0 -30px;
     border-top:1px solid #2b2e31;
     border-bottom:1px solid #3d4043;
 }
 
-#upload ul li{
+#uploadForm ul li{
 
     background-color:#333639;
 
@@ -122,11 +122,11 @@ section, footer, header, aside{
     position: relative;
 }
 
-#upload ul li input{
+#uploadForm ul li input{
     display: none;
 }
 
-#upload ul li p{
+#uploadForm ul li p{
     width: 144px;
     overflow: hidden;
     white-space: nowrap;
@@ -138,20 +138,20 @@ section, footer, header, aside{
     left: 100px;
 }
 
-#upload ul li i{
+#uploadForm ul li i{
     font-weight: normal;
     font-style:normal;
     color:#7f7f7f;
     display:block;
 }
 
-#upload ul li canvas{
+#uploadForm ul li canvas{
     top: 15px;
     left: 32px;
     position: absolute;
 }
 
-#upload ul li span{
+#uploadForm ul li span{
     width: 15px;
     height: 12px;
     background: url('../img/icons.png') no-repeat;
@@ -161,12 +161,12 @@ section, footer, header, aside{
     cursor:pointer;
 }
 
-#upload ul li.working span{
+#uploadForm ul li.working span{
     height: 16px;
     background-position: 0 -12px;
 }
 
-#upload ul li.error p{
+#uploadForm ul li.error p{
     color:red;
 }
 

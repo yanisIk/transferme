@@ -7,11 +7,12 @@
 
 <body>
     {{> sAlert}}
-
-    <h1 class="title">TransferMe</h1>
-    <div class="subtitle">Send a file to your friends quickly and easily</div>
-    {{> uploadForm}}
-
 </body>
+
+<template name="mainLayout">
+    <h1 class="title">TransferMe</h1>
+    <div class="subtitle">Send files to your friends quickly and easily</div>
+    {{> Template.dynamic template=page}}
+</template>
 
 

@@ -13,6 +13,7 @@ Meteor.methods({
 	  this.unblock();
 	  if (options.emailTo) {
 		  //Send email with download link
+          sendEmailToReceiver(options);
 	  }
   }
 });

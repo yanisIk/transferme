@@ -7,7 +7,11 @@ Template.uploadForm.helpers({
     },
     progress: function () {
         if (Session.get("actualFile")) {
-            return Math.round(BasicUploader.progress() * 100);
+            var progress = Math.round(BasicUploader.progress() * 100);
+            if (!progress) {
+                return 85;
+            }
+            return progress;
         }
         return 0;
     }
@@ -19,7 +23,7 @@ Template.uploadForm.helpers({
 
 Template.uploadForm.events({
     'click #drop a': function (evt, temp) {
-        e.preventDefault();
+        evt.preventDefault();
         // Simulate a click on the file input button
         // to show the file browser dialog
         temp.$('input').click();
@@ -29,7 +33,7 @@ Template.uploadForm.events({
         evt.preventDefault();
 
         var uploadOptions = {
-              file: temp.find('input[type=file]').file,
+              file: Session.get('actualFile').originalFile,
               emailFrom: evt.target.emailFrom.value || "",
               emailTo: evt.target.emailTo.value || "",
               message: evt.target.message.value || ""
@@ -40,7 +44,8 @@ Template.uploadForm.events({
           sAlert.warning('Attach a file first');
           return;
         }
-
+        console.log('UPLOAD OPTIONS:', uploadOptions);
+        /*
         BasicUploader.send(file, function (error, downloadUrl) {
           if (error) {
             sAlert.error("Error while uploading file");
@@ -54,6 +59,7 @@ Template.uploadForm.events({
             });
           }
         });
+        */
     }
 });
 
@@ -67,11 +73,11 @@ Template.uploadForm.onRendered(function () {
         // This function is called when a file is added to the queue;
         // either via the browse button, or via drag/drop:
         add: function (e, data) {
-
             //Create file object in Session
             var actualFile = {
-              name: data.files[0].name,
-              size: formatFileSize(data.files[0].size)
+                name: data.files[0].name,
+                size: formatFileSize(data.files[0].size),
+                originalFile: EJSON.stringify(data.files[0])
             }
             Session.set("actualFile", actualFile);
 
