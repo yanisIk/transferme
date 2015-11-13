@@ -93,6 +93,7 @@ templating-tools@1.0.0
 tmeasday:publish-counts@0.7.2
 tomi:upload-jquery@2.2.0
 tracker@1.0.9
+twbs:bootstrap@3.3.5
 ui@1.0.8
 underscore@1.0.4
 url@1.0.5

@@ -1,18 +1,19 @@
 <template name="uploadForm">
   <form id="uploadForm" action="#">
-			<input type="email" name="emailFrom" placeholder="Your email" />
-			<input type="email" name="emailTo" placeholder="Your friend's email" />
-			<input type="text" name="message" placeholder="Message" />
+			
+			<input type="email" class="form-control" name="emailFrom" placeholder="Your email" />
+			<input type="email" class="form-control" name="emailTo" placeholder="Your friend's email" />
+			<textarea class="form-control" rows="3" placeholder="Message"></textarea>
+			
 			{{#unless file}}
 				<div id="drop">
 					Drop Here
-
 					<a>Browse</a>
 					<input type="file" name="file"/>
 				</div>
 			{{else}}
                 <br>
-                <input type="submit"/>
+                <input class="btn btn-primary" id="submitUploadBtn" type="submit"/>
 			{{/unless}}
 
 			<ul>
@@ -21,7 +22,7 @@
 				<li class="working">
 		        	<input type="text" value="{{progress}}" data-width="48" data-height="48" data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" />
 		        	<p>{{name}} <i>{{size}}</i></p>
-		        	<span></span>
+		        	<span id="cancelBtn"></span>
 		        </li>
 		    {{/with}}
 			</ul>

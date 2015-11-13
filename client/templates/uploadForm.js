@@ -29,6 +29,13 @@ Template.uploadForm.events({
         temp.$('input').click();
     },
 
+    'click #cancelBtn': function (evt, temp) {
+        console.log('REMOVE FILE');
+        //if upload is ongoing, cancel it
+        // else remove file from Session
+        Session.set('actualFile', null);
+    },
+
     'submit #uploadForm': function (evt, temp) {
         evt.preventDefault();
 
@@ -85,20 +92,7 @@ Template.uploadForm.onRendered(function () {
             // Initialize the knob plugin
             fileStatusElement.find('input').knob();
 
-            // Listen for clicks on the cancel icon
-            fileStatusElement.find('span').click(function(){
-                console.log('REMOVE FILE');
-                if(fileStatusElement.hasClass('working')){
-                    //Cancel upload
-                    console.log('CANCEL UPLOAD');
-                    //BasicUploader.abort() ???
-                }
-
-                fileStatusElement.fadeOut(function(){
-                    fileStatusElement.remove();
-                });
-
-            });
+            
         }
     });
 });
